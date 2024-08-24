@@ -64,11 +64,8 @@ class YoutubeVideo:
             transcript_list = YouTubeTranscriptApi.list_transcripts(self.id)
             default_caption_language_code = self._get_default_caption_language_code()
             transcript_object = transcript_list.find_transcript([default_caption_language_code]) 
-            if transcript_object.is_generated:
-                transcript = self.WhisperWrapper.get_transcript()
-            else:
-                transcript_raw = transcript_object.fetch()
-                transcript = " ".join([entry['text'] for entry in transcript_raw])
+            transcript_raw = transcript_object.fetch()
+            transcript = " ".join([entry['text'] for entry in transcript_raw])
         except Exception:
             transcript = self.WhisperWrapper.get_transcript()
         return transcript
