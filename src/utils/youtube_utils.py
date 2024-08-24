@@ -4,7 +4,7 @@ import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._transcripts import TranscriptListFetcher
 
-from utils.whisper_utils import whisper_transcript
+from utils.whisper_utils import WhisperWrapper
 
 
 class YoutubeVideo:
@@ -13,7 +13,8 @@ class YoutubeVideo:
         self.is_valid = self._validate_url()
         if self.is_valid:
             self.id = self._get_video_id()
-    
+            self.WhisperWrapper = WhisperWrapper(self.url)
+            
     
     def _validate_url(self) -> bool:
         # Youtube oEmbed endpoint returns 200 for non-existent videos
@@ -48,7 +49,7 @@ class YoutubeVideo:
         return None
     
     
-    def get_default_caption_language_code(self) -> str:
+    def _get_default_caption_language_code(self) -> str:
         with requests.Session() as http_client:
             tListFetcher = TranscriptListFetcher(http_client)
             captions_json = tListFetcher._extract_captions_json(tListFetcher._fetch_video_html(self.id), self.id)
@@ -61,15 +62,15 @@ class YoutubeVideo:
     def get_transcript(self) -> str:
         try:
             transcript_list = YouTubeTranscriptApi.list_transcripts(self.id)
-            default_caption_language_code = self.get_default_caption_language_code()
+            default_caption_language_code = self._get_default_caption_language_code()
             transcript_object = transcript_list.find_transcript([default_caption_language_code]) 
             if transcript_object.is_generated:
-                transcript = whisper_transcript(self.url)
+                transcript = self.WhisperWrapper.get_transcript()
             else:
                 transcript_raw = transcript_object.fetch()
                 transcript = " ".join([entry['text'] for entry in transcript_raw])
         except Exception:
-            transcript = whisper_transcript(self.url)
+            transcript = self.WhisperWrapper.get_transcript()
         return transcript
 
     
