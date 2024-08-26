@@ -34,7 +34,10 @@ def configure_summarisation_functionality() -> None:
                 transcript = youtube_video.get_transcript()
                 summariser = Summariser()
                 summary = asyncio.run(summariser.get_summary_async(transcript, language))
-                st.write(summary)
+                if summary:
+                    st.write(summary)
+                else:
+                    st.error('Please retry')
         else:
             st.error('Please enter a valid url')
     elif url and 'youtube'not in url:
