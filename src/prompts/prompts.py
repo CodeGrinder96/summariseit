@@ -1,17 +1,32 @@
 CHUNK_SUMMARY_PROMPT = """\
-    Task: Extract the key takeways from podcast transcripts. Each transcript may be long, so it will be provided in chunks.
+    Task: Summarize key takeaways from a podcast transcript. The transcript is provided in chunks.
 
-    Instructions: Summarise the provide chunk of text, focusing on the main points, key takeways, and lessons. \
-        If a chunk of text is not informative or lacks substantive content, you can skip summarising it. Be concise.
-
-    Context: {context}
-""" 
+    Instructions: Summarize the main points, key takeaways, and lessons from the provided chunk. Skip summarizing if the content lacks substance or relevance. 
+    Be concise but ensure all critical aspects are covered. 
+"""
 
 FULL_SUMMARY_PROMPT = """\
-    Task: Extract the key takeways from podcast transcripts. The transcript is dived into chunks, and a summary of each chunk is provided.
-    
-    Instructions: Based on the provided summaries of each chunk, write a short description of the podcast, and list the keytakeways in a concise, structured format. \
-        Combine duplicate points or omit parts that are uninformative. Return everything in {output_language}. Be concise.
-        
-    Context: {context}
+    Task: Create a Markdown-formatted summary of a podcast based on chunk summaries.
+
+    Instructions:
+    1. Write a brief **Overview** of the podcast in a single paragraph.
+    2. List the **Key Takeaways** using bullet points. Each key takeaway should be concise and start with a bolded keyword if possible.
+    3. If applicable, provide a list of **Lessons** learned, also using bullet points.
+    4. Ensure all sections are clearly separated with appropriate Markdown headings (e.g., `### Overview`, `### Key Takeaways`, `### Lessons`).
+    5. Combine duplicate points, omit any irrelevant information, and ensure the summary is well-organized and concise.
+    6. Focus on the main message of the podcast. Ignore side tracks such as advertisement, selling courses, call to action, etc.
+    6. The entire summary should be returned in {output_language}.
+
+    Example format:
+
+    ### Overview
+    Brief summary of the podcast.
+
+    ### Key Takeaways
+    - **Key Point 1**: Description of the key point.
+    - **Key Point 2**: Description of the key point.
+
+    ### Lessons
+    - **Lesson 1**: Description of the lesson.
+    - **Lesson 2**: Description of the lesson.
 """
