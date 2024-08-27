@@ -8,8 +8,8 @@ from pydantic import BaseModel
 
 
 class LLMFactory:
-    def __init__(self, provider: str):
-        self.provider = provider
+    def __init__(self, provider: str = None):
+        self.provider = provider if provider is not None else "openai"
         self.settings = getattr(get_settings(), provider)
         self.client = self._initialize_client()
 
