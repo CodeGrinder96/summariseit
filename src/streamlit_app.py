@@ -6,11 +6,11 @@ from utils.youtube_utils import YoutubeVideo
 
 
 def configure_page() -> None:
-    st.set_page_config(page_title='Podcast Summariser')
+    st.set_page_config(page_title='SummariseIt')
     
 
 def configure_overview() -> None:
-    st.title('Podcast Summariser')
+    st.title('SummariseIt')
     
 
 def configure_summarisation_functionality() -> None:
