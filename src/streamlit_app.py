@@ -32,12 +32,12 @@ def configure_summarisation_functionality() -> None:
             
             if st.button('Get key takeaways', use_container_width=True):
                 transcript = youtube_video.get_transcript()
-                summariser = Summariser()
-                summary = asyncio.run(summariser.get_summary_async(transcript, language))
-                if summary:
+                try: 
+                    summariser = Summariser()
+                    summary = asyncio.run(summariser.get_summary_async(transcript, language))
                     st.write(summary)
-                else:
-                    st.error('Please retry')
+                except Exception:
+                    st.error('Please check your LLM configurations or try again')
         else:
             st.error('Please enter a valid url')
     elif url and 'youtube'not in url:
