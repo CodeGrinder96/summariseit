@@ -1,4 +1,4 @@
-# SummariseIt
+# SummariseIt 🎙️
 
 **SummariseIt** allows you to summarise your beloved podcast whenever you are not in the mood to listen to it, or when you want to learn from its insights but rather not spend your precious time consuming the content. It provides a high-level overview, along with the key takeaways and lessons. 
 
